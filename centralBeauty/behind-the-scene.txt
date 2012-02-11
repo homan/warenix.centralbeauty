@@ -1,0 +1,14 @@
+Content URIs
+
+authority: org.dyndns.warenix.centralbeauty.provider
+
+list all central beauties by date range
+path: /list/<from>/<to>
+
+
+get individual date
+path: /get/<date>
+
+
+update 
+path: /put/?previewImage=%s&previewImageLarge=%s&description=%s&num=%d

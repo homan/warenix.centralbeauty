@@ -11,7 +11,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.dyndns.warenix.centralBeauty.parser.AppleDailyParser;
+import org.dyndns.warenix.centralBeauty.util.DateUtil;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,7 +20,7 @@ import android.util.Log;
 
 public class CentralBeautyMaster {
 
-	public static final String LOG_TAG = AppleDailyParser.class.getSimpleName();
+	public static final String LOG_TAG = "CentralBeautyMaster";
 
 	final String SERVER_BASE = "http://4.inviteyouall.appspot.com";
 

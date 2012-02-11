@@ -1,4 +1,4 @@
-package org.dyndns.warenix.centralBeauty;
+package org.dyndns.warenix.centralBeauty.util;
 
 import java.util.Calendar;
 import java.util.Date;

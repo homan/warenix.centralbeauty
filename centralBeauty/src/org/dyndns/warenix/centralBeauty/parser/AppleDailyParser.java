@@ -81,7 +81,7 @@ public class AppleDailyParser {
 					}
 					if ("p".equals(tagName)) {
 						String text = tag.getText().toString();
-						if (text.equals("中環我至靚")) {
+						if (text.equals("中環我最靚")) {
 							found = true;
 							return false;
 						}
