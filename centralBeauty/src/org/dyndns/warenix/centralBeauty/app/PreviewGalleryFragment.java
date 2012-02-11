@@ -33,7 +33,7 @@ public class PreviewGalleryFragment extends Fragment implements
 		super.onCreate(savedInstanceState);
 		Log.i(TAG, "onCreate");
 
-		CachedWebImage.setCacheDir("tabletapp");
+		CachedWebImage.setCacheDir("centralBeauty");
 	}
 
 	@Override

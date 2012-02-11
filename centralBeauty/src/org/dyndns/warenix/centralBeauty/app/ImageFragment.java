@@ -30,6 +30,9 @@ public class ImageFragment extends Fragment {
 	public static final String BUNDLE_IMAGE_URL = "image_url";
 	public static final String BUNDLE_CENTRAL_BEAUTY = "central_beauty";
 
+	// currently display
+	CentralBeauty mCentralBeauty;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -41,8 +44,14 @@ public class ImageFragment extends Fragment {
 		CentralBeauty centralBeauty = (CentralBeauty) b
 				.getSerializable(BUNDLE_CENTRAL_BEAUTY);
 
+		mCentralBeauty = centralBeauty;
+
 		new DownloadImageTask(getView(), centralBeauty.num, centralBeauty,
 				getActivity()).execute(centralBeauty.previewImageUrlLarge);
+	}
+
+	public CentralBeauty getCurrentlyDisplayedCentralBeauty() {
+		return mCentralBeauty;
 	}
 
 	private static class DownloadImageTask extends

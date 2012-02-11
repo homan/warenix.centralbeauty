@@ -10,9 +10,13 @@ import org.dyndns.warenix.centralBeauty.app.PreviewGalleryFragment.PreviewGaller
 import org.dyndns.warenix.centralBeauty.parser.AppleDailyParser;
 import org.dyndns.warenix.centralBeauty.provider.CentralBeautyMetaData;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.example.android.actionbarcompat.ActionBarActivity;
 
@@ -39,6 +43,30 @@ public class CentralBeautyActivity extends ActionBarActivity implements
 				.findFragmentById(R.id.image_fragment);
 
 		updateTodayBeauty();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater menuInflater = getMenuInflater();
+		menuInflater.inflate(R.menu.main, menu);
+
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.actionbar_download:
+			CentralBeauty centralBeauty = mImageFragment
+					.getCurrentlyDisplayedCentralBeauty();
+			if (centralBeauty != null) {
+				DownloadNotification notification = new DownloadNotification();
+				notification.startDownloadNotification(this, centralBeauty);
+			}
+			break;
+		}
+
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override

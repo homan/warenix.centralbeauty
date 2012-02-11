@@ -27,18 +27,23 @@ import android.widget.Toast;
 
 public class DownloadNotification {
 
-	Context mContext;
+	public void startDownloadNotification(Context context,
+			CentralBeauty centralBeauty) {
 
-	public void startDownloadNotification(Context context) {
-		mContext = context;
+		new DownloadImageAsyncTask(context).execute(centralBeauty);
 	}
 
 	class DownloadImageAsyncTask extends
 			AsyncTask<CentralBeauty, Integer, Void> {
-
+		Context mContext;
 		int notificationId;
 		Notification notification;
 		String full_local_file_path;
+
+		public DownloadImageAsyncTask(Context context) {
+			mContext = context;
+
+		}
 
 		protected void onProgressUpdate(Integer... progress) {
 			if (progress[0] == 100) {
@@ -55,8 +60,8 @@ public class DownloadNotification {
 
 		@Override
 		protected Void doInBackground(CentralBeauty... args) {
-			CentralBeauty centralBeauty = args[0];
 
+			CentralBeauty centralBeauty = args[0];
 			if (centralBeauty != null) {
 				// Create one directory
 				String saveInDir = "centralbeauty";
@@ -132,39 +137,41 @@ public class DownloadNotification {
 					.show();
 		}
 
-	}
+		NotificationManager notificationManager;
 
-	NotificationManager notificationManager;
+		void showProgressBar(Notification notification, int progress,
+				String full_local_file_path) {
+			// configure the intent
+			Intent intent = new Intent(Intent.ACTION_VIEW);
+			intent.setDataAndType(Uri.fromFile(new File(full_local_file_path)),
+					"image/png");
+			final PendingIntent pendingIntent = PendingIntent.getActivity(
+					mContext, 0, intent, 0);
 
-	void showProgressBar(Notification notification, int progress,
-			String full_local_file_path) {
-		// configure the intent
-		Intent intent = new Intent(Intent.ACTION_VIEW);
-		intent.setDataAndType(Uri.fromFile(new File(full_local_file_path)),
-				"image/png");
-		final PendingIntent pendingIntent = PendingIntent.getActivity(mContext,
-				0, intent, 0);
+			notification.flags = notification.flags
+					| Notification.FLAG_AUTO_CANCEL;
+			notification.contentView = new RemoteViews(
+					mContext.getPackageName(), R.layout.download_progress);
+			notification.contentIntent = pendingIntent;
+			notification.contentView.setImageViewResource(R.id.status_icon,
+					R.drawable.photo_icon);
+			notification.contentView.setTextViewText(R.id.status_text,
+					"Download to " + full_local_file_path);
+			notification.contentView.setProgressBar(R.id.status_progress, 100,
+					0, false);
 
-		notification.flags = notification.flags | Notification.FLAG_AUTO_CANCEL;
-		notification.contentView = new RemoteViews(mContext.getPackageName(),
-				R.layout.download_progress);
-		notification.contentIntent = pendingIntent;
-		notification.contentView.setImageViewResource(R.id.status_icon,
-				R.drawable.photo_icon);
-		notification.contentView.setTextViewText(R.id.status_text,
-				"Download to " + full_local_file_path);
-		notification.contentView.setProgressBar(R.id.status_progress, 100, 0,
-				false);
-
-		if (notificationManager == null) {
-			notificationManager = (NotificationManager) mContext
-					.getSystemService(Context.NOTIFICATION_SERVICE);
+			if (notificationManager == null) {
+				notificationManager = (NotificationManager) mContext
+						.getSystemService(Context.NOTIFICATION_SERVICE);
+			}
 		}
+
+		int getNextNotiifcationId() {
+			return nextId++;
+		}
+
 	}
 
 	static int nextId = 123;
 
-	int getNextNotiifcationId() {
-		return nextId++;
-	}
 }
