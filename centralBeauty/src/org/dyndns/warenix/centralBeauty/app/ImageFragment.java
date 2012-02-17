@@ -2,12 +2,13 @@ package org.dyndns.warenix.centralBeauty.app;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.dyndns.warenix.centralBeauty.CentralBeauty;
 import org.dyndns.warenix.centralBeauty.R;
+import org.dyndns.warenix.util.DownloadUtil;
+import org.dyndns.warenix.util.DownloadUtil.ProgressListener;
 import org.dyndns.warenix.util.TouchUtil;
 
 import android.app.Activity;
@@ -55,7 +56,7 @@ public class ImageFragment extends Fragment {
 	}
 
 	private static class DownloadImageTask extends
-			AsyncTask<String, Integer, Bitmap> {
+			AsyncTask<String, Integer, Bitmap> implements ProgressListener {
 
 		ImageView m_vwImage;
 		TextView m_vwLoad;
@@ -94,27 +95,10 @@ public class ImageFragment extends Fragment {
 
 				Bitmap result = null;
 
-				HttpURLConnection connection = (HttpURLConnection) url
-						.openConnection();
-				int length = connection.getContentLength();
 				InputStream is = (InputStream) url.getContent();
-				byte[] imageData = new byte[length];
-				int buffersize = (int) Math.ceil(length / (double) SIZE);
-
-				// Read in the bytes
-				int offset = 0;
-				int numRead = 0;
-				while (offset < imageData.length
-						&& (numRead = is.read(imageData, offset,
-								imageData.length - offset)) >= 0) {
-					offset += numRead;
-					int percentage = (int) (Math.ceil(SIZE * offset
-							/ (double) imageData.length));
-					publishProgress(percentage);
-				}
-
-				result = BitmapFactory.decodeByteArray(imageData, 0, length);
-				connection.disconnect();
+				byte[] imageData = DownloadUtil.getData(url, this);
+				result = BitmapFactory.decodeByteArray(imageData, 0,
+						imageData.length);
 				// }
 				return result;
 			} catch (MalformedURLException e) {
@@ -150,6 +134,12 @@ public class ImageFragment extends Fragment {
 				TouchUtil.setImageViewPinchToZoom(m_vwImage);
 			}
 			description.setText(Html.fromHtml(centralBeauty.description));
+		}
+
+		@Override
+		public void onProgress(int read, int offset, int total) {
+			int percentage = offset * SIZE / total;
+			publishProgress(percentage);
 		}
 	}
 
