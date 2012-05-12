@@ -13,7 +13,8 @@
 
     <application
         android:icon="@drawable/photo_icon"
-        android:label="@string/app_name" >
+        android:label="@string/app_name"
+        android:theme="@style/AppThemeBlack" >
         <activity
             android:name="org.dyndns.warenix.centralBeauty.app.CentralBeautyActivity"
             android:label="@string/app_name" >

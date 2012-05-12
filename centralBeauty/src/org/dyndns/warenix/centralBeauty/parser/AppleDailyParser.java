@@ -12,7 +12,7 @@ import org.htmlcleaner.TagNode;
 import org.htmlcleaner.TagNodeVisitor;
 import org.htmlcleaner.Utils;
 
-import android.util.Log;
+import android.net.Uri;
 
 public class AppleDailyParser {
 
@@ -34,12 +34,18 @@ public class AppleDailyParser {
 			// "http://hk.apple.nextmedia.com/template/apple/art_main.php?iss_id=20110826&sec_id=15307&subsec_id=15320&art_id=15557897";
 			parseDescription(fullPageUrl);
 
-			int num = 1;
-			int l1 = "http://static2.apple.nextmedia.com//images/apple-photos/apple/"
-					.length();
-			Log.d(LOG_TAG, "num:" + previewImageUrlLarege.substring(l1, l1 + 8));
-
-			num = Integer.parseInt(previewImageUrlLarege.substring(l1, l1 + 8));
+			Uri uri = Uri.parse(fullPageUrl);
+			String iss_id = uri.getQueryParameter("iss_id");
+			int num = Integer.parseInt(iss_id);
+			// int num = 1;
+			// int l1 =
+			// "http://static2.apple.nextmedia.com//images/apple-photos/apple/"
+			// .length();
+			// Log.d(LOG_TAG, "num:" + previewImageUrlLarege.substring(l1, l1 +
+			// 8));
+			//
+			// num = Integer.parseInt(previewImageUrlLarege.substring(l1, l1 +
+			// 8));
 			return new CentralBeauty(num, fullPageUrl, previewImageUrl,
 					previewImageUrlLarege, description);
 		}
@@ -81,7 +87,7 @@ public class AppleDailyParser {
 					}
 					if ("p".equals(tagName)) {
 						String text = tag.getText().toString();
-						if (text.equals("¤¤Àô§Ú³Ìè°")) {
+						if (text.equals("ä¸­ç’°æˆ‘è‡³éš") || text.equals("ä¸­ç’°æˆ‘æœ€éš")) {
 							found = true;
 							return false;
 						}
