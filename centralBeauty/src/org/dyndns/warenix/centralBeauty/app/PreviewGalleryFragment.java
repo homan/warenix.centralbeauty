@@ -88,6 +88,7 @@ public class PreviewGalleryFragment extends Fragment implements
 
 	public interface PreviewGalleryListener {
 		public void onPreviewSelected(int position);
+		public void onPreviewLoaded();
 	}
 
 	@Override
@@ -111,6 +112,10 @@ public class PreviewGalleryFragment extends Fragment implements
 	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
 		Log.i(TAG, "onLoadFinished");
 		adapter.swapCursor(cursor);
+		
+		if (mPreviewGalleryListener != null){
+			mPreviewGalleryListener.onPreviewLoaded();
+		}
 	}
 
 	@Override

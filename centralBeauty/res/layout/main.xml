@@ -1,24 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/content"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:layout_below="@+id/title_bar" >
+    android:layout_height="fill_parent" >
 
-    <fragment
-        android:id="@+id/preview_gallery"
-        android:name="org.dyndns.warenix.centralBeauty.app.PreviewGalleryFragment"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="40" >
-    </fragment>
+    <LinearLayout
+        android:id="@+id/loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical" >
 
-    <fragment
-        android:id="@+id/image_fragment"
-        android:name="org.dyndns.warenix.centralBeauty.app.ImageFragment"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="60" >
-    </fragment>
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal" />
 
-</LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Now loading..." />
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/title_bar" >
+
+        <fragment
+            android:id="@+id/preview_gallery"
+            android:name="org.dyndns.warenix.centralBeauty.app.PreviewGalleryFragment"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="40" >
+        </fragment>
+
+        <fragment
+            android:id="@+id/image_fragment"
+            android:name="org.dyndns.warenix.centralBeauty.app.ImageFragment"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="60" >
+        </fragment>
+    </LinearLayout>
+
+</RelativeLayout>

@@ -34,6 +34,8 @@ public class ImageFragment extends Fragment {
 	// currently display
 	CentralBeauty mCentralBeauty;
 
+	DownloadImageTask mDownloadImageTask;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -47,8 +49,12 @@ public class ImageFragment extends Fragment {
 
 		mCentralBeauty = centralBeauty;
 
-		new DownloadImageTask(getView(), centralBeauty.num, centralBeauty,
-				getActivity()).execute(centralBeauty.previewImageUrlLarge);
+		if (mDownloadImageTask != null && !mDownloadImageTask.isCancelled()) {
+			mDownloadImageTask.cancel(true);
+		}
+		mDownloadImageTask = new DownloadImageTask(getView(),
+				centralBeauty.num, centralBeauty, getActivity());
+		mDownloadImageTask.execute(centralBeauty.previewImageUrlLarge);
 	}
 
 	public CentralBeauty getCurrentlyDisplayedCentralBeauty() {
@@ -83,6 +89,7 @@ public class ImageFragment extends Fragment {
 			activity.setProgressBarIndeterminateVisibility(Boolean.TRUE);
 			m_vwLoad.setVisibility(View.VISIBLE);
 			onProgressUpdate(new Integer[] { 0 });
+			onProgressUpdate(0);
 		}
 
 		// This class definition states that DownloadImageTask will take String
@@ -124,16 +131,18 @@ public class ImageFragment extends Fragment {
 		}
 
 		protected void onPostExecute(final Bitmap result) {
-			activity.setProgressBarIndeterminateVisibility(Boolean.FALSE);
-			m_vwLoad.setVisibility(View.GONE);
-			m_vwImage.setVisibility(View.VISIBLE);
-			if (result == null) {
-				m_vwImage.setImageResource(R.drawable.photo_icon);
-			} else {
-				m_vwImage.setImageBitmap(result);
-				TouchUtil.setImageViewPinchToZoom(m_vwImage);
+			if (!this.isCancelled()) {
+				activity.setProgressBarIndeterminateVisibility(Boolean.FALSE);
+				m_vwLoad.setVisibility(View.GONE);
+				m_vwImage.setVisibility(View.VISIBLE);
+				if (result == null) {
+					m_vwImage.setImageResource(R.drawable.photo_icon);
+				} else {
+					m_vwImage.setImageBitmap(result);
+					TouchUtil.setImageViewPinchToZoom(m_vwImage);
+				}
+				description.setText(Html.fromHtml(centralBeauty.description));
 			}
-			description.setText(Html.fromHtml(centralBeauty.description));
 		}
 
 		@Override

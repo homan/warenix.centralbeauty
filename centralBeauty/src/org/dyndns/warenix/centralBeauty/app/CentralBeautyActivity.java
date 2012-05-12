@@ -10,13 +10,14 @@ import org.dyndns.warenix.centralBeauty.app.PreviewGalleryFragment.PreviewGaller
 import org.dyndns.warenix.centralBeauty.parser.AppleDailyParser;
 import org.dyndns.warenix.centralBeauty.provider.CentralBeautyMetaData;
 
-import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.example.android.actionbarcompat.ActionBarActivity;
 
@@ -114,5 +115,10 @@ public class CentralBeautyActivity extends ActionBarActivity implements
 				}
 			}
 		}.start();
+	}
+
+	@Override
+	public void onPreviewLoaded() {
+		findViewById(R.id.loading).setVisibility(View.GONE);
 	}
 }
