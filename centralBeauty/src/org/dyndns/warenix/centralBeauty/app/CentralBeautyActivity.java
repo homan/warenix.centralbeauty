@@ -11,7 +11,6 @@ import org.dyndns.warenix.centralBeauty.parser.AppleDailyParser;
 import org.dyndns.warenix.centralBeauty.provider.CentralBeautyMetaData;
 
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -120,5 +119,8 @@ public class CentralBeautyActivity extends ActionBarActivity implements
 	@Override
 	public void onPreviewLoaded() {
 		findViewById(R.id.loading).setVisibility(View.GONE);
+
+		// load first image
+		onPreviewSelected(0);
 	}
 }
