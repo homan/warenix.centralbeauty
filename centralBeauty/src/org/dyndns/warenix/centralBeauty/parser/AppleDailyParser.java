@@ -3,6 +3,7 @@ package org.dyndns.warenix.centralBeauty.parser;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 import org.dyndns.warenix.centralBeauty.CentralBeauty;
 import org.htmlcleaner.CleanerProperties;
@@ -30,22 +31,12 @@ public class AppleDailyParser {
 
 		if (found) {
 
-			// fullPageUrl =
-			// "http://hk.apple.nextmedia.com/template/apple/art_main.php?iss_id=20110826&sec_id=15307&subsec_id=15320&art_id=15557897";
 			parseDescription(fullPageUrl);
 
-			Uri uri = Uri.parse(fullPageUrl);
-			String iss_id = uri.getQueryParameter("iss_id");
-			int num = Integer.parseInt(iss_id);
-			// int num = 1;
-			// int l1 =
-			// "http://static2.apple.nextmedia.com//images/apple-photos/apple/"
-			// .length();
-			// Log.d(LOG_TAG, "num:" + previewImageUrlLarege.substring(l1, l1 +
-			// 8));
-			//
-			// num = Integer.parseInt(previewImageUrlLarege.substring(l1, l1 +
-			// 8));
+			Uri uri = Uri.parse(previewImageUrlLarege);
+			List<String> segments = uri.getPathSegments();
+			int num = Integer.parseInt(segments.get(segments.size() - 3));
+
 			return new CentralBeauty(num, fullPageUrl, previewImageUrl,
 					previewImageUrlLarege, description);
 		}
