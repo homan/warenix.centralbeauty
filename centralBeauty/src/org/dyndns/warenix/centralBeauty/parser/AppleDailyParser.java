@@ -14,6 +14,7 @@ import org.htmlcleaner.TagNodeVisitor;
 import org.htmlcleaner.Utils;
 
 import android.net.Uri;
+import android.util.Log;
 
 public class AppleDailyParser {
 
@@ -73,11 +74,13 @@ public class AppleDailyParser {
 							previewImageUrlLarege = previewImageUrl.replace(
 									"92pix", "large");
 							tag.setAttribute("src", Utils.fullUrl(url, src));
-							// Log.d(LOG_TAG, previewImageUrl);
+//							 Log.d(LOG_TAG, previewImageUrl);
 						}
 					}
 					if ("p".equals(tagName)) {
 						String text = tag.getText().toString();
+						text = text.replace(" ", "");
+//						Log.d(LOG_TAG, text);
 						if (text.equals("中環我至靚") || text.equals("中環我最靚")) {
 							found = true;
 							return false;
