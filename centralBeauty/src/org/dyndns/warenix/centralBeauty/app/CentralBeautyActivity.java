@@ -72,16 +72,18 @@ public class CentralBeautyActivity extends ActionBarActivity implements
 	@Override
 	public void onPreviewSelected(int position) {
 		Cursor item = mPreviewGalleryFragment.getCursorItem(position);
-		String url = item
-				.getString(item
-						.getColumnIndex(CentralBeautyMetaData.BaseColumns.previewImageUrlLarge));
-		Log.d(TAG, url);
+		if (item != null) {
+			String url = item
+					.getString(item
+							.getColumnIndex(CentralBeautyMetaData.BaseColumns.previewImageUrlLarge));
+			Log.d(TAG, url);
 
-		Bundle b = new Bundle();
-		b.putString(ImageFragment.BUNDLE_IMAGE_URL, url);
-		b.putSerializable(ImageFragment.BUNDLE_CENTRAL_BEAUTY,
-				CentralBeauty.newInstance(item));
-		mImageFragment.loadImage(b);
+			Bundle b = new Bundle();
+			b.putString(ImageFragment.BUNDLE_IMAGE_URL, url);
+			b.putSerializable(ImageFragment.BUNDLE_CENTRAL_BEAUTY,
+					CentralBeauty.newInstance(item));
+			mImageFragment.loadImage(b);
+		}
 	}
 
 	void updateTodayBeauty() {

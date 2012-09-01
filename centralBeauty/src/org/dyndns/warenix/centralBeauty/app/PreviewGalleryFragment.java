@@ -83,11 +83,15 @@ public class PreviewGalleryFragment extends Fragment implements
 	}
 
 	public Cursor getCursorItem(int position) {
+		if (position >= adapter.getCount()) {
+			return null;
+		}
 		return (Cursor) adapter.getItem(position);
 	}
 
 	public interface PreviewGalleryListener {
 		public void onPreviewSelected(int position);
+
 		public void onPreviewLoaded();
 	}
 
@@ -112,8 +116,8 @@ public class PreviewGalleryFragment extends Fragment implements
 	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
 		Log.i(TAG, "onLoadFinished");
 		adapter.swapCursor(cursor);
-		
-		if (mPreviewGalleryListener != null){
+
+		if (mPreviewGalleryListener != null) {
 			mPreviewGalleryListener.onPreviewLoaded();
 		}
 	}

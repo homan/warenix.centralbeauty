@@ -4,10 +4,18 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <ImageView
+    <!--
+         <ImageView
         android:id="@+id/image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_centerInParent="true" />
+    -->
+
+    <com.sonyericsson.zoom.ImageZoomView
+        android:id="@+id/zoomview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:layout_centerInParent="true" />
 
     <TextView

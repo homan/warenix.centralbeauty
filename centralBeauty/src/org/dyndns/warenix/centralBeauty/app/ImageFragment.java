@@ -9,7 +9,6 @@ import org.dyndns.warenix.centralBeauty.CentralBeauty;
 import org.dyndns.warenix.centralBeauty.R;
 import org.dyndns.warenix.util.DownloadUtil;
 import org.dyndns.warenix.util.DownloadUtil.ProgressListener;
-import org.dyndns.warenix.util.TouchUtil;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -24,6 +23,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.sonyericsson.zoom.AspectQuotient;
+import com.sonyericsson.zoom.DynamicZoomControl;
+import com.sonyericsson.zoom.ImageZoomView;
+import com.sonyericsson.zoom.PinchZoomListener;
+
 public class ImageFragment extends Fragment {
 	/**
 	 * show this image
@@ -36,11 +40,47 @@ public class ImageFragment extends Fragment {
 
 	DownloadImageTask mDownloadImageTask;
 
+	/** Zoom control */
+	private DynamicZoomControl mZoomControl;
+	/** Image zoom view */
+	private ImageZoomView mZoomView;
+
+	private PinchZoomListener mPinchZoomListener;
+
+	/** Decoded bitmap image */
+	private Bitmap mBitmap;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.central_beauty, container, false);
+		initUI(view);
 		return view;
+	}
+
+	void initUI(View view) {
+		mZoomControl = new DynamicZoomControl();
+		mZoomControl.setAspectQuotient(new AspectQuotient());
+
+		mPinchZoomListener = new PinchZoomListener(view.getContext()
+				.getApplicationContext());
+		mPinchZoomListener.setZoomControl(mZoomControl);
+
+		mZoomView = (ImageZoomView) view.findViewById(R.id.zoomview);
+		mZoomView.setZoomState(mZoomControl.getZoomState());
+		mZoomView.setOnTouchListener(mPinchZoomListener);
+
+		// mZoomView.setImage(null);
+	}
+
+	/**
+	 * Reset zoom state and notify observers
+	 */
+	private void resetZoomState() {
+		mZoomControl.getZoomState().setPanX(0.5f);
+		mZoomControl.getZoomState().setPanY(0.5f);
+		mZoomControl.getZoomState().setZoom(1f);
+		mZoomControl.getZoomState().notifyObservers();
 	}
 
 	public void loadImage(Bundle b) {
@@ -61,8 +101,8 @@ public class ImageFragment extends Fragment {
 		return mCentralBeauty;
 	}
 
-	private static class DownloadImageTask extends
-			AsyncTask<String, Integer, Bitmap> implements ProgressListener {
+	private class DownloadImageTask extends AsyncTask<String, Integer, Bitmap>
+			implements ProgressListener {
 
 		ImageView m_vwImage;
 		TextView m_vwLoad;
@@ -75,7 +115,7 @@ public class ImageFragment extends Fragment {
 
 		public DownloadImageTask(final View v, int n,
 				CentralBeauty centralBeauty, Activity activity) {
-			m_vwImage = (ImageView) v.findViewById(R.id.image);
+			// m_vwImage = (ImageView) v.findViewById(R.id.image);
 			m_vwLoad = (TextView) v.findViewById(R.id.progress);
 			description = (TextView) v.findViewById(R.id.description);
 
@@ -134,12 +174,22 @@ public class ImageFragment extends Fragment {
 			if (!this.isCancelled()) {
 				activity.setProgressBarIndeterminateVisibility(Boolean.FALSE);
 				m_vwLoad.setVisibility(View.GONE);
-				m_vwImage.setVisibility(View.VISIBLE);
-				if (result == null) {
-					m_vwImage.setImageResource(R.drawable.photo_icon);
-				} else {
-					m_vwImage.setImageBitmap(result);
-					TouchUtil.setImageViewPinchToZoom(m_vwImage);
+				// m_vwImage.setVisibility(View.VISIBLE);
+				// if (result == null) {
+				// m_vwImage.setImageResource(R.drawable.photo_icon);
+				// } else {
+				// m_vwImage.setImageBitmap(result);
+				// TouchUtil.setImageViewPinchToZoom(m_vwImage);
+				// }
+				if (result != null) {
+					if (mBitmap != null) {
+						mBitmap.recycle();
+					}
+					mBitmap = result;
+					mZoomView.setImage(mBitmap);
+					mZoomControl.setAspectQuotient(mZoomView
+							.getAspectQuotient());
+					resetZoomState();
 				}
 				description.setText(Html.fromHtml(centralBeauty.description));
 			}
