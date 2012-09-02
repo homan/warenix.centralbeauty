@@ -27,8 +27,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/content"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/title_bar" >
+        android:layout_height="fill_parent" >
 
         <fragment
             android:id="@+id/preview_gallery"

@@ -67,6 +67,7 @@ public class ImageFragment extends Fragment {
 		mPinchZoomListener.setZoomControl(mZoomControl);
 
 		mZoomView = (ImageZoomView) view.findViewById(R.id.zoomview);
+		mZoomView.setVisibility(View.GONE);
 		mZoomView.setZoomState(mZoomControl.getZoomState());
 		mZoomView.setOnTouchListener(mPinchZoomListener);
 
@@ -186,6 +187,7 @@ public class ImageFragment extends Fragment {
 						mBitmap.recycle();
 					}
 					mBitmap = result;
+					mZoomView.setVisibility(View.VISIBLE);
 					mZoomView.setImage(mBitmap);
 					mZoomControl.setAspectQuotient(mZoomView
 							.getAspectQuotient());
