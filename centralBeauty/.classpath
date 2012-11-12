@@ -4,9 +4,9 @@
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
-	<classpathentry kind="src" path="/ActionbarLib"/>
-	<classpathentry kind="lib" path="C:/Users/Guest/Downloads/android-sdk-windows/extras/android/compatibility/v4/android-support-v4.jar"/>
-	<classpathentry kind="src" path="/warenixlib"/>
-	<classpathentry kind="lib" path="lib/htmlcleaner-2.2.jar"/>
+	<classpathentry exported="true" kind="src" path="/ActionbarLib"/>
+	<classpathentry exported="true" kind="src" path="/warenixlib"/>
+	<classpathentry kind="lib" path="libs/htmlcleaner-2.2.jar"/>
+	<classpathentry kind="lib" path="/warenixlib/lib/android-compatility/android-support-v4.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

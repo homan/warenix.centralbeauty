@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.dyndns.warenix.centralBeauty"
     android:installLocation="auto"
-    android:versionCode="10"
-    android:versionName="2.4" >
+    android:versionCode="11"
+    android:versionName="3.0" >
 
     <uses-sdk
         android:minSdkVersion="6"
@@ -15,9 +15,9 @@
     <application
         android:icon="@drawable/photo_icon"
         android:label="@string/app_name"
-        android:theme="@style/AppThemeBlack" >
+        >
         <activity
-            android:name="org.dyndns.warenix.centralBeauty.app.CentralBeautyActivity"
+            android:name="org.dyndns.warenix.centralBeauty.app.SlidingContent"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

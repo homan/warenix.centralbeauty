@@ -27,6 +27,10 @@ public class CentralBeautyActivity extends ActionBarActivity implements
 	private PreviewGalleryFragment mPreviewGalleryFragment;
 	private ImageFragment mImageFragment;
 
+//	public CentralBeautyActivity() {
+//		super(R.string.app_name);
+//	}
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
